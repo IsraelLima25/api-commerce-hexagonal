@@ -34,5 +34,5 @@ public interface ClienteSwagger {
 	
 	@Operation(operationId = "getClienteById", summary = "Endpoint responsável buscar cliente pelo id", description = "")
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Ok")})
-	ResponseEntity<ClienteResponse> getById(Long id);
+	ResponseEntity<ClienteResponse> getById(String id);
 }

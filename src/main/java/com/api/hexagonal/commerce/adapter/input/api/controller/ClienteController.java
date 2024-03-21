@@ -1,12 +1,14 @@
 package com.api.hexagonal.commerce.adapter.input.api.controller;
 
 import java.net.URI;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +21,7 @@ import com.api.hexagonal.commerce.adapter.input.api.dto.request.ClienteRequest;
 import com.api.hexagonal.commerce.adapter.input.api.dto.response.ClienteResponse;
 import com.api.hexagonal.commerce.domain.model.Cliente;
 import com.api.hexagonal.commerce.port.input.CreateClienteInputPort;
+import com.api.hexagonal.commerce.port.input.GetByIdClienteInputPort;
 
 import jakarta.validation.Valid;
 
@@ -29,11 +32,13 @@ public class ClienteController implements ClienteSwagger {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ClienteController.class);
 	
 	private final CreateClienteInputPort createClienteInputPort;
+	private final GetByIdClienteInputPort getByIdClienteInputPort;
 	private final ClienteMapper clienteMapper;
 	
-	public ClienteController(CreateClienteInputPort createClienteInputPort, ClienteMapper clienteMapper) {
+	public ClienteController(CreateClienteInputPort createClienteInputPort, ClienteMapper clienteMapper, GetByIdClienteInputPort getByIdClienteInputPort) {
 		this.createClienteInputPort = createClienteInputPort;
 		this.clienteMapper = clienteMapper;
+		this.getByIdClienteInputPort = getByIdClienteInputPort;
 	}
 
 	@PostMapping
@@ -47,12 +52,13 @@ public class ClienteController implements ClienteSwagger {
 		return ResponseEntity.created(uri).body(clienteResponse);
 	}
 	
-	@GetMapping
+	@GetMapping("/{id}")
 	@Override
-	public ResponseEntity<ClienteResponse> getById(Long id) {
+	public ResponseEntity<ClienteResponse> getById(@PathVariable("id") String id) {
 		
 		LOGGER.info("Recebendo operação para buscar cliente por id");
-		return null;
+		Optional<ClienteResponse> optionalCliente = getByIdClienteInputPort.execute(id);
+		
+		return ResponseEntity.ok(optionalCliente.get());
 	}
-
 }

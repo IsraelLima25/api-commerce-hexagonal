@@ -8,4 +8,4 @@ import org.springframework.stereotype.Repository;
 import com.api.hexagonal.commerce.adapter.output.database.entities.ClienteEntity;
 
 @Repository
-public interface ClienteRepository extends JpaRepository<ClienteEntity, UUID> { }
+public interface ClienteRepository extends JpaRepository<ClienteEntity, String> { }
