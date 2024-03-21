@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+
+  mysql-db:
+    image: mysql:8.2.0
+    container_name: mysql-db    
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_USER: ilima
+      MYSQL_PASSWORD: user
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+    ports:
+      - 3306:3306
+    networks:
+      - business
+  
+volumes:
+  mysql:
+
+networks:
+  business:
+    internal:
+      false
