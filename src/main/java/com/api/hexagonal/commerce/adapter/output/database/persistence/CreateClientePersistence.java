@@ -32,8 +32,6 @@ public class CreateClientePersistence implements CreateClienteOutputPort {
 		LOGGER.info("Iniciando persistencia no banco de dados");
 		ClienteEntity clienteEntity = new ClienteEntity(cliente.getNome(), cliente.getCpf());
 		LOGGER.info("Cliente persistido no banco de dados com sucesso");
-		ClienteEntity save = clienteRepository.save(clienteEntity);
-		ClienteResponse clienteResponse = clienteMapper.toClienteResponse(save);
-		return clienteResponse;
+		return clienteMapper.toClienteResponse(clienteRepository.save(clienteEntity));
 	}
 }

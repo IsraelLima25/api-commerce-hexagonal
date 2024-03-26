@@ -41,7 +41,5 @@ public class GetByIdClientePersistence implements GetByIdClienteOutputPort {
 		ClienteResponse clienteResponse = clienteMapper.toClienteResponse(optionalClienteEntity.get());
 
 		return Optional.of(clienteResponse);
-
 	}
-
 }
