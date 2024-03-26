@@ -18,7 +18,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.api.hexagonal.commerce.adapter.input.api.dto.response.ClienteResponse;
 import com.api.hexagonal.commerce.domain.model.Cliente;
-import com.api.hexagonal.commerce.port.input.CreateClienteInputPort;
 import com.api.hexagonal.commerce.port.output.CreateClienteOutputPort;
 
 @ExtendWith(SpringExtension.class)
