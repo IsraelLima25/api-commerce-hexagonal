@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(enableDefaultTransactions = false)
+//@EnableJpaRepositories(enableDefaultTransactions = false)
 @ComponentScan(basePackages = "com.api.hexagonal.commerce")
 public class CommerceApplication {
 
