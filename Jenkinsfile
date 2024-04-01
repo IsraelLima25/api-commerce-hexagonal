@@ -6,9 +6,9 @@ pipeline{
 
         stage('Clone repository') {
             steps{
-                git url: 'git@github.com:IsraelLima25/api-commerce-hexagonal.git',
-                credentialsId: 'github',
-                branch: 'main'
+               git branch: 'main', 
+               credentialsId: 'github', 
+               url: 'https://github.com/IsraelLima25/api-commerce-hexagonal'
             }
         }
     }
