@@ -31,3 +31,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Volume docker folder ###
+docker/mysql
+docker/sonar_db
+docker/sonar_db_data
+docker/sonarqube_conf
+docker/sonarqube_data
+docker/sonarqube_extensions
+docker/sonarqube_logs
+docker/sonarqube_temp
