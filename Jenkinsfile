@@ -4,9 +4,15 @@ pipeline{
 
     stages{
 
-        stage('Echo') {
+        stage('Build') {
             steps{
-               sh 'echo olá'
+               sh 'mvn -Dmaven.test.skip=true clean package'
+            }
+        }
+
+        stage('Unit Tests') {
+            steps{
+               sh 'mvn test'
             }
         }
     }
