@@ -14,13 +14,13 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>commerce</name>
 	<description>Project refactor to hexagonal archtecture</description>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	<properties>
 		<java.version>17</java.version>
 		<mapstruct-version>1.5.5.Final</mapstruct-version>
 		<springdoc.version>2.3.0</springdoc.version>
 		<maven-jacoco-version>0.8.11</maven-jacoco-version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
