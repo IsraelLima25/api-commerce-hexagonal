@@ -31,7 +31,7 @@ pipeline{
             }
             steps{
                 withSonarQubeEnv('SONAR_LOCAL') {
-                    sh "${scannerHome}/bin/sonar-scanner -e -Dsonar.projectKey=api-commerce -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_fbf5cbdf88860b5ae3818d3ba15f18f12d85fa96 -Dsonar.java.binaries=target"
+                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=api-commerce -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_fbf5cbdf88860b5ae3818d3ba15f18f12d85fa96'
                 }
             }
         }
