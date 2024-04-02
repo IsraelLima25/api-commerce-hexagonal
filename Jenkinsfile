@@ -8,7 +8,7 @@ pipeline{
             steps{
                git branch: 'main', 
                credentialsId: 'github', 
-               url: 'git@github.com:IsraelLima25/zeca.git'
+               url: 'git@github.com:IsraelLima25/api-commerce-hexagonal.git'
             }
         }
     }
