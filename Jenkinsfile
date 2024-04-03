@@ -28,7 +28,7 @@ pipeline{
         stage('Sonar Analysis') {            
             steps{
                 withSonarQubeEnv('SONAR_LOCAL') {
-                    sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=api-commerce -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_fbf5cbdf88860b5ae3818d3ba15f18f12d85fa96'
+                    sh 'mvn clean package sonar:sonar -Dsonar.projectKey=api-commerce -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_26c7e663f42ab1590d739142a7dcd638a9df423f'
                 }
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
