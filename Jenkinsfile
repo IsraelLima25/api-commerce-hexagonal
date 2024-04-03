@@ -12,35 +12,35 @@ pipeline{
 
         stage('Build') {
             steps{
-               echo("Execute Build")
+               sh 'echo Execute Build'
                sh 'mvn -Dmaven.test.skip=true -Dtests.unit.skip=true clean package'
                script {
                     TAG_SELECTOR = readMavenPom().getVersion()
                 }
-                echo("Build done")              
+              sh 'echo Build done'           
             }
         }
 
         stage('Unit Tests') {
             steps{
-               echo("Execute unit tests")
+               sh 'echo Execute unit tests'
                sh 'mvn test -Dmaven.test.skip=false'
             }
-            echo("Unit tests done")
+            sh 'echo Unit tests done'
         }
 
         stage('Integration Tests') {
             steps{
-               echo("Execute integration tests")
+               sh 'echo Execute integration tests'
                sh 'mvn -Dtests.unit.skip=true verify'
             }
-            echo("Integration tests done")
+            sh 'echo Integration tests done'
         }
 
         stage('Sonar Analysis') {        
             steps{
                 withSonarQubeEnv('SONAR_LOCAL') {
-                    echo("Execute sonar static code")
+                    sh 'echo Execute sonar static code'
                     sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=api-commerce -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_26c7e663f42ab1590d739142a7dcd638a9df423f'
                 }
                 timeout(time: 5, unit: 'MINUTES') {
@@ -51,7 +51,7 @@ pipeline{
                         }
                     }
                 }
-                echo("Sonar static code success") 
+                sh 'echo Sonar static code success' 
             }
         }
 
@@ -59,14 +59,14 @@ pipeline{
             steps{
                 script {
                     try {
-                        echo("Execute analyze dockerfile")                        
+                        sh 'echo Execute analyze dockerfile'                    
                         sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
                     } catch (Exception e) {
                         sh "echo $e"
                         currentBuild.result = 'ABORTED'
                         error('Erro')
                     }
-                    echo("Analyze dockerfile done")
+                    sh 'echo Analyze dockerfile done'
                 }
             }
         }
@@ -75,14 +75,14 @@ pipeline{
             steps{
                 script {
                     try {
-                        echo("Execute build image")                        
+                        sh 'echo Execute build image'                        
                         sh "docker build -t ilimafilho/commerce:${TAG_SELECTOR} ."
                     } catch (Exception e) {
                         sh "echo $e"              
                         currentBuild.result = 'ABORTED'
                         error('Erro')
                     }
-                    echo("Build image done")  
+                    sh 'echo Build image done'  
                 }
             }
         }
@@ -91,16 +91,16 @@ pipeline{
             steps{
                 script{
                     try {
-                        echo("Execute push image")  
+                        sh 'echo Execute push image'  
                         withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
                         sh "docker push ilimafilho/commerce:${TAG_SELECTOR}"
-                        echo("Remove image local") 
+                        sh 'echo Remove image local' 
                         sh "docker image rm ilimafilho/commerce:${TAG_SELECTOR}"
                     }
                     } catch (Exception e) {
                         sh "echo $e"
                     }
-                    echo("Push image done")  
+                    sh 'echo Push image done'  
                 }
             }
         } 
