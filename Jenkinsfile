@@ -1,3 +1,5 @@
+def TAG_SELECTOR = "UNINTIALIZED"
+
 pipeline{
 
     agent any
@@ -7,11 +9,15 @@ pipeline{
 
     stages{
 
-        // stage('Build') {
-        //     steps{
-        //        sh 'mvn -Dmaven.test.skip=true -Dtests.unit.skip=true clean package'
-        //     }
-        // }
+        stage('Build') {
+            steps{
+               sh 'mvn -Dmaven.test.skip=true -Dtests.unit.skip=true clean package'
+               script {
+                    TAG_SELECTOR = readMavenPom().getVersion()
+                }
+                echo("TAG_SELECTOR=${TAG_SELECTOR}")
+            }
+        }
 
         // stage('Unit Tests') {
         //     steps{
@@ -90,7 +96,7 @@ pipeline{
 
         stage('Echo'){
             steps{
-                sh ' minha versão é @project.version@'
+                sh "minha versão é ${TAG_SELECTOR}"
             }
         }
 
