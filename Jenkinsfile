@@ -11,36 +11,29 @@ pipeline{
     stages{
 
         stage('Build') {
-            steps{
-               sh 'echo Execute Build'
+            steps{               
                sh 'mvn -Dmaven.test.skip=true -Dtests.unit.skip=true clean package'
                script {
                     TAG_SELECTOR = readMavenPom().getVersion()
-                }
-              sh 'echo Build done'           
+                }                        
             }
         }
 
         stage('Unit Tests') {
-            steps{
-               sh 'echo Execute unit tests'
+            steps{               
                sh 'mvn test -Dmaven.test.skip=false'
-            }
-            sh 'echo Unit tests done'
+            }            
         }
 
         stage('Integration Tests') {
-            steps{
-               sh 'echo Execute integration tests'
+            steps{              
                sh 'mvn -Dtests.unit.skip=true verify'
-            }
-            sh 'echo Integration tests done'
+            }           
         }
 
         stage('Sonar Analysis') {        
             steps{
-                withSonarQubeEnv('SONAR_LOCAL') {
-                    sh 'echo Execute sonar static code'
+                withSonarQubeEnv('SONAR_LOCAL') {                    
                     sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=api-commerce -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_26c7e663f42ab1590d739142a7dcd638a9df423f'
                 }
                 timeout(time: 5, unit: 'MINUTES') {
@@ -50,23 +43,20 @@ pipeline{
                             error "Pipeline aborted due to a quality gate failure: ${qg.status}"
                         }
                     }
-                }
-                sh 'echo Sonar static code success' 
+                }                
             }
         }
 
          stage('Analyze dockerfile'){
             steps{
                 script {
-                    try {
-                        sh 'echo Execute analyze dockerfile'                    
+                    try {                                      
                         sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
                     } catch (Exception e) {
                         sh "echo $e"
                         currentBuild.result = 'ABORTED'
                         error('Erro')
-                    }
-                    sh 'echo Analyze dockerfile done'
+                    }                    
                 }
             }
         }
@@ -74,15 +64,13 @@ pipeline{
         stage('Build image'){
             steps{
                 script {
-                    try {
-                        sh 'echo Execute build image'                        
+                    try {                                                
                         sh "docker build -t ilimafilho/commerce:${TAG_SELECTOR} ."
                     } catch (Exception e) {
                         sh "echo $e"              
                         currentBuild.result = 'ABORTED'
                         error('Erro')
-                    }
-                    sh 'echo Build image done'  
+                    }                      
                 }
             }
         }
@@ -90,17 +78,14 @@ pipeline{
         stage('Push image'){
             steps{
                 script{
-                    try {
-                        sh 'echo Execute push image'  
+                    try {                         
                         withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
-                        sh "docker push ilimafilho/commerce:${TAG_SELECTOR}"
-                        sh 'echo Remove image local' 
+                        sh "docker push ilimafilho/commerce:${TAG_SELECTOR}"                        
                         sh "docker image rm ilimafilho/commerce:${TAG_SELECTOR}"
                     }
                     } catch (Exception e) {
                         sh "echo $e"
-                    }
-                    sh 'echo Push image done'  
+                    }                    
                 }
             }
         } 
