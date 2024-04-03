@@ -41,50 +41,56 @@ pipeline{
         //     }
         // }
 
-         stage('Analyze dockerfile'){
-            steps{
-                script {
-                    try {
-                        sh 'echo Analisando dockerfile'
-                        sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
-                    } catch (Exception e) {
-                        sh "echo $e"
-                        currentBuild.result = 'ABORTED'
-                        error('Erro')
-                    }
-                }
-            }
-        }
+        //  stage('Analyze dockerfile'){
+        //     steps{
+        //         script {
+        //             try {
+        //                 sh 'echo Analisando dockerfile'
+        //                 sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+        //             } catch (Exception e) {
+        //                 sh "echo $e"
+        //                 currentBuild.result = 'ABORTED'
+        //                 error('Erro')
+        //             }
+        //         }
+        //     }
+        // }
         
-        stage('Build image'){
-            steps{
-                script {
-                    try {
-                        sh 'echo Construindo imagem'
-                        sh 'docker build -t ilimafilho/commerce:1.0.0 .'
-                    } catch (Exception e) {
-                        sh "echo $e"              
-                        currentBuild.result = 'ABORTED'
-                        error('Erro')
-                    }
-                }
-            }
-        }
+        // stage('Build image'){
+        //     steps{
+        //         script {
+        //             try {
+        //                 sh 'echo Construindo imagem'
+        //                 sh 'docker build -t ilimafilho/commerce:1.0.0 .'
+        //             } catch (Exception e) {
+        //                 sh "echo $e"              
+        //                 currentBuild.result = 'ABORTED'
+        //                 error('Erro')
+        //             }
+        //         }
+        //     }
+        // }
         
-        stage('Push image'){
+        // stage('Push image'){
+        //     steps{
+        //         script{
+        //             try {
+        //                 sh 'echo Enviando imagem para repositorio remoto'
+        //                 withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
+        //                 sh 'docker push ilimafilho/commerce:1.0.0'
+        //                 sh 'echo Removendo cache imagem local'
+        //                 sh 'docker image rm ilimafilho/commerce'
+        //             }
+        //             } catch (Exception e) {
+        //                 sh "echo $e"
+        //             }
+        //         }
+        //     }
+        // }
+
+        stage('Echo'){
             steps{
-                script{
-                    try {
-                        sh 'echo Enviando imagem para repositorio remoto'
-                        withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
-                        sh 'docker push ilimafilho/commerce:1.0.0'
-                        sh 'echo Removendo cache imagem local'
-                        sh 'docker image rm ilimafilho/commerce'
-                    }
-                    } catch (Exception e) {
-                        sh "echo $e"
-                    }
-                }
+                sh ' minha versão é @project.version@'
             }
         }
 
