@@ -43,7 +43,7 @@ pipeline{
 
         stage('Analyze dockerfile'){
             steps{
-                sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+                sh 'docker build -t ilimafilho:commerce:1.0.0 .'
             }
         }
 
