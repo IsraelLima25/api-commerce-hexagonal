@@ -43,7 +43,7 @@ pipeline{
 
         stage('Analyze dockerfile'){
             steps{
-                sh 'docker build -t ilimafilho:commerce:1.0.0 .'
+                sh 'docker build -t ilimafilho/commerce:1.0.0 .'
             }
         }
 
