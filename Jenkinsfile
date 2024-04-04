@@ -11,16 +11,14 @@ pipeline{
 
     stages{
 
-        stage('Build') {
-            echo("Execute build")
+        stage('Build') {            
             steps{               
                sh 'mvn -Dmaven.test.skip=true -Dtests.unit.skip=true clean package'
                script {
                     NAME_ARTIFACT = readMavenPom().getName()
                     VERSION_ARTIFACT = readMavenPom().getVersion()                     
                 }                        
-            }
-            echo("Build done")
+            }            
         }
 
         stage('Unit Tests') {
