@@ -19,7 +19,7 @@ services:
 
   api-commerce:
       restart: always
-      image: ilimafilho/commerce:latest
+      image: ilimafilho/commerce:1.0.0-SNAPSHOT
       environment:
         MYSQL_HOST: mysql-db:3306
       ports:
