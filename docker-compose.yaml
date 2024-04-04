@@ -19,9 +19,7 @@ services:
 
   api-commerce:
       restart: always
-      build:
-        context: .
-        dockerfile: Dockerfile    
+      image: ilimafilho
       environment:
         MYSQL_HOST: mysql-db:3306
       ports:

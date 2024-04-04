@@ -83,8 +83,8 @@ pipeline{
                 script{
                     try {                         
                         withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
-                        sh "docker push ilimafilho/commerce:${VERSION_ARTIFACT}"                        
-                        sh "docker image rm ilimafilho/${${NAME_ARTIFACT}}:${VERSION_ARTIFACT}"
+                        sh "docker push ilimafilho/${NAME_ARTIFACT}:${VERSION_ARTIFACT}"                        
+                        sh "docker image rm ilimafilho/${NAME_ARTIFACT}:${VERSION_ARTIFACT}"
                     }
                     } catch (Exception e) {
                         sh "echo $e"
@@ -93,11 +93,11 @@ pipeline{
             }
         }
 
-        stage('Deploy'){
-            steps{
-                sh 'docker compose up -d'
-            }
-        }  
+        // stage('Deploy'){
+        //     steps{
+        //         sh 'docker compose up -d'
+        //     }
+        // }  
     }
     
     post {
