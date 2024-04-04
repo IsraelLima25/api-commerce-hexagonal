@@ -1,4 +1,5 @@
 FROM openjdk:17
+ARG JAR_FILE
 WORKDIR /app
-COPY ./target/commerce-1.0.0-SNAPSHOT.jar /app/
-ENTRYPOINT [ "java", "-jar", "-Dspring.profiles.active=default", "/app/commerce-1.0.0-SNAPSHOT.jar" ]
+COPY ./target/${JAR_FILE} /app/
+ENTRYPOINT [ "java", "-jar", "-Dspring.profiles.active=default", "/app/${JAR_FILE}.jar" ]

@@ -1,4 +1,5 @@
-def TAG_SELECTOR = "UNINTIALIZED"
+def NAME_ARTIFACT = "UNINTIALIZED"
+def VERSION_ARTIFACT = "UNINTIALIZED"
 
 pipeline{
 
@@ -11,12 +12,15 @@ pipeline{
     stages{
 
         stage('Build') {
+            echo("Execute build")
             steps{               
                sh 'mvn -Dmaven.test.skip=true -Dtests.unit.skip=true clean package'
                script {
-                    TAG_SELECTOR = readMavenPom().getVersion()
+                    NAME_ARTIFACT = readMavenPom().getName()
+                    VERSION_ARTIFACT = readMavenPom().getVersion()                     
                 }                        
             }
+            echo("Build done")
         }
 
         stage('Unit Tests') {
@@ -65,8 +69,8 @@ pipeline{
         stage('Build image'){
             steps{
                 script {
-                    try {                                                
-                        sh "docker build -t ilimafilho/commerce:${TAG_SELECTOR} ."
+                    try {  
+                        sh "docker build --build-arg JAR_FILE=${NAME_ARTIFACT}-${VERSION_ARTIFACT}.jar -t ilimafilho/${NAME_ARTIFACT}:${VERSION_ARTIFACT} ."
                     } catch (Exception e) {
                         sh "echo $e"              
                         currentBuild.result = 'ABORTED'
@@ -81,15 +85,21 @@ pipeline{
                 script{
                     try {                         
                         withDockerRegistry([ credentialsId: "dockerhub", url: "" ]) {
-                        sh "docker push ilimafilho/commerce:${TAG_SELECTOR}"                        
-                        sh "docker image rm ilimafilho/commerce:${TAG_SELECTOR}"
+                        sh "docker push ilimafilho/commerce:${VERSION_ARTIFACT}"                        
+                        sh "docker image rm ilimafilho/${${NAME_ARTIFACT}}:${VERSION_ARTIFACT}"
                     }
                     } catch (Exception e) {
                         sh "echo $e"
                     }                    
                 }
             }
-        } 
+        }
+
+        stage('Deploy'){
+            steps{
+                sh 'docker compose up -d'
+            }
+        }  
     }
     
     post {
