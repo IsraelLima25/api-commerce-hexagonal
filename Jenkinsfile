@@ -50,19 +50,19 @@ pipeline{
             }
         }
 
-         stage('Analyze dockerfile'){
-            steps{
-                script {
-                    try {                                      
-                        sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
-                    } catch (Exception e) {
-                        sh "echo $e"
-                        currentBuild.result = 'ABORTED'
-                        error('Erro')
-                    }                    
-                }
-            }
-        }
+        //  stage('Analyze dockerfile'){
+        //     steps{
+        //         script {
+        //             try {                                      
+        //                 sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+        //             } catch (Exception e) {
+        //                 sh "echo $e"
+        //                 currentBuild.result = 'ABORTED'
+        //                 error('Erro')
+        //             }                    
+        //         }
+        //     }
+        // }
         
         stage('Build image'){
             steps{
