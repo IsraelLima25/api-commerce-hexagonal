@@ -15,20 +15,20 @@ services:
     ports:
       - 3306:3306
     networks:
-      - private
+      - public
 
-  api-commerce:
-      restart: always
-      image: ilimafilho/commerce:1.0.0-SNAPSHOT
-      environment:
-        MYSQL_HOST: mysql-db:3306
-      ports:
-        - 8080:8080
-      depends_on:
-        - mysql-db
-      networks:
-        - private
-        - public
+        # api-commerce:
+        #restart: always
+        # image: ilimafilho/commerce:1.0.0-SNAPSHOT
+        # environment:
+        # MYSQL_HOST: mysql-db:3306
+        # ports:
+        # - 8080:8080
+        # depends_on:
+        # - mysql-db
+        # networks:
+        # - private
+        # - public
 
 volumes:
   mysql:
